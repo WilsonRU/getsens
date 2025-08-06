@@ -3,9 +3,11 @@ import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import useForm from '@/utils/hooks/useForm';
+import { ArrowBendDownLeftIcon } from '@phosphor-icons/react';
 import Input from '@/components/Input';
 import Layout from '@/components/Layout';
 import Button from '@/components/Button';
+
 
 export default function ForgotPassword() {
 	const authContext = useContext(AuthContext);
@@ -47,15 +49,16 @@ export default function ForgotPassword() {
 				>
 					Reset Password
 				</Button>
-
+			</div>
+			<div className='text-white'>
 				<Button
 					ui='text'
-					className="text-sm hover:text-charcoal"
+					className="text-sm hover:text-default-100"
 					action={() => {
 						navigate('/');
 					}}
 				>
-					Go Back
+					<ArrowBendDownLeftIcon size={32} />
 				</Button>
 			</div>
 		</Layout>

@@ -18,7 +18,7 @@ export default function Signin() {
 		},
 		{
 			email: { required: true, type: 'email' },
-			password: { required: true },
+			password: { required: true, type: 'password' },
 		},
 	);
 
@@ -34,7 +34,7 @@ export default function Signin() {
 				<Input
 					type="text"
 					name="email"
-					placeholder="usuario@getsens.com"
+					placeholder="user@getsens.com"
 					label="Email"
 					value={fields.email}
 					error={errors.email}
@@ -55,7 +55,7 @@ export default function Signin() {
 
 				<Button
 					ui='text'
-					className="text-left cursor-pointer text-green-blue hover:text-delft-blue"
+					className="text-left text-[14px] ml-1 cursor-pointer text-green-blue hover:text-delft-blue"
 					action={() => {
 						navigate('/forgot-password');
 					}}

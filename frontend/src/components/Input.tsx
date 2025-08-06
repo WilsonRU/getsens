@@ -43,7 +43,7 @@ export default function Input({
 				disabled={disabled}
 			/>
 			{error && (
-				<p className="pl-2 mt-2 text-red-800 text-bold text-xs">{error}</p>
+				<p className="pl-2 text-red-800 text-bold text-xs">{error}</p>
 			)}
 		</div>
 	);

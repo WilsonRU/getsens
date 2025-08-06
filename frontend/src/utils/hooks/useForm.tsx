@@ -43,25 +43,25 @@ const useForm = <T extends FormFields>(
 
 			if (fieldValidation?.required && !value) {
 				newErrors[fieldName] =
-					'Ops! Parece que você esqueceu de preencher este campo.';
+					'Oops! Looks like you forgot to fill in this field..';
 			}
 
 			if (fieldValidation?.type === 'email' && value) {
 				if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
-					newErrors[fieldName] = 'E-mail inválido';
+					newErrors[fieldName] = 'Invalid email';
 				}
 			}
 
 			if (fieldValidation?.type === 'number' && value) {
 				if (/\D/g.test(value)) {
-					newErrors[fieldName] = 'Campo aceita apenas números';
+					newErrors[fieldName] = 'Field only accepts numbers';
 				}
 			}
 
 			if (fieldValidation?.type === 'phone' && value) {
 				const phoneRegex = /^\(\d{2}\) \d{4,5}-\d{4}$/;
 				if (!phoneRegex.test(value)) {
-					newErrors[fieldName] = 'Formato inválido. Use (XX) XXXXX-XXXX';
+					newErrors[fieldName] = 'Invalid format. Use (XX) XXXXX-XXXX';
 				}
 			}
 
@@ -71,7 +71,14 @@ const useForm = <T extends FormFields>(
 				const dateRegex =
 					/^(19|20)\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
 				if (!dateRegex.test(dateValue.toLocaleDateString('en-CA'))) {
-					newErrors[fieldName] = 'Formato inválido.';
+					newErrors[fieldName] = 'Invalid format.';
+				}
+			}
+
+			if (fieldValidation?.type === 'password' && value) {
+				const passwordRegex = /^(?=.*\d)(?=.*[!@#$%&])(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+				if (!passwordRegex.test(value)) {
+					newErrors[fieldName] = 'Use 6+ chars with a number, symbol, and upper/lowercase letters.';
 				}
 			}
 
@@ -79,7 +86,7 @@ const useForm = <T extends FormFields>(
 				const cpf = value.replace(/\D/g, '');
 
 				if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) {
-					newErrors[fieldName] = 'CPF deve conter 11 dígitos.';
+					newErrors[fieldName] = 'CPF must contain 11 digits.';
 				} else {
 					let soma = 0;
 					let resto: number;
@@ -90,7 +97,7 @@ const useForm = <T extends FormFields>(
 					if (resto === 10 || resto === 11) resto = 0;
 					if (resto !== Number.parseInt(cpf[9])) {
 						newErrors[fieldName] =
-							'CPF inválido: primeiro dígito verificador incorreto.';
+							'Invalid CPF: first check digit incorrect.';
 					} else {
 						soma = 0;
 						for (let i = 0; i < 10; i++)
@@ -99,7 +106,7 @@ const useForm = <T extends FormFields>(
 						if (resto === 10 || resto === 11) resto = 0;
 						if (resto !== Number.parseInt(cpf[10])) {
 							newErrors[fieldName] =
-								'CPF inválido: segundo dígito verificador incorreto.';
+								'Invalid CPF: incorrect second verification digit.';
 						}
 					}
 				}
