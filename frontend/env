@@ -1,0 +1,2 @@
+VITE_APP_TITLE="Get Sens"
+VITE_API_URL="http://localhost:4001/api/"
