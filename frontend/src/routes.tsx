@@ -39,6 +39,12 @@ export default function Routes() {
 					<Route path="/signup" element={<Signup />} />
 					<Route path="/forgot-password" element={<ForgotPassword />} />
 
+					<Route path='/dashboard' element={
+						<Guard>
+							<h1>Logado</h1>
+						</Guard>
+					} />
+
 					<Route
 						path="*"
 						element={

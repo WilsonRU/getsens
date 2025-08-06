@@ -53,33 +53,36 @@ export default function Signin() {
 					className="h-16"
 				/>
 
-				<button
-					type="button"
-					className="text-left font-bold cursor-pointer hover:text-zinc-900"
-					onClick={() => {
+				<Button
+					ui='text'
+					className="text-left cursor-pointer text-green-blue hover:text-delft-blue"
+					action={() => {
 						navigate('/forgot-password');
 					}}
 				>
-					Esqueci a senha?
-				</button>
+					Forgot password?
+				</Button>
 
 				<Button
 					ui='button'
 					className="bg-default-100 hover:bg-default-200 hover:text-white h-16"
 					action={handleSubmit}
 				>
-					Entrar
+					Login
 				</Button>
 
-				<Button
-					ui='text'
-					className="text-center font-bold cursor-pointer hover:text-zinc-900"
-					action={() => {
-						navigate('/signup');
-					}}
-				>
-					Nova Conta
-				</Button>
+				<div className='inline-flex gap-1 items-center justify-center'>
+					<span className='font-normal text-sm'>Don't have an account?</span>
+					<Button
+						ui='text'
+						className="text-sm text-green-blue hover:text-delft-blue"
+						action={() => {
+							navigate('/signup');
+						}}
+					>
+						Register
+					</Button>
+				</div>
 			</div>
 		</Layout>
 	);

@@ -18,7 +18,7 @@ export default function Button({
 	const uiStyles = {
 		button:
 			'px-4 py-2 font-bold rounded-md focus:outline-none flex items-center justify-center text-neutral-100 focus:ring focus:ring-gray-300 focus:ring-opacity-50 gap-2 cursor-pointer',
-		text: 'text-center font-bold cursor-pointer hover:text-zinc-900',
+		text: 'text-center font-bold cursor-pointer',
 	};
 
 	return (

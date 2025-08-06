@@ -32,14 +32,12 @@ export default function Signup() {
 
 	return (
 		<Layout className="gap-4">
-			<span className="text-white text-4xl font-bold">Criar Conta</span>
-
 			<div className="flex flex-col gap-4 p-6 w-2xl bg-white rounded-2xl">
 				<Input
 					type="text"
 					name="name"
-					placeholder="Nome do Usuário"
-					label="Nome"
+					placeholder="Username"
+					label="Name"
 					value={fields.name}
 					error={errors.name}
 					onChange={handleChange}
@@ -49,7 +47,7 @@ export default function Signup() {
 				<Input
 					type="text"
 					name="email"
-					placeholder="usuario@getsens.com"
+					placeholder="user@getsens.com"
 					label="Email"
 					value={fields.email}
 					error={errors.email}
@@ -61,7 +59,7 @@ export default function Signup() {
 					type="password"
 					name="password"
 					placeholder="********"
-					label="Senha"
+					label="Password"
 					value={fields.password}
 					error={errors.password}
 					onChange={handleChange}
@@ -73,18 +71,21 @@ export default function Signup() {
 					className="bg-default-100 hover:bg-default-200 hover:text-white h-16"
 					action={handleSubmit}
 				>
-					Cadastrar
+					Register
 				</Button>
 
-				<Button
-					ui='text'
-					className="text-center font-bold cursor-pointer hover:text-zinc-900"
-					action={() => {
-						navigate('/');
-					}}
-				>
-					Voltar
-				</Button>
+				<div className='inline-flex gap-1 items-center justify-center'>
+					<span className='font-normal text-sm'>Already have an account?</span>
+					<Button
+						ui='text'
+						className="text-sm text-green-blue hover:text-delft-blue"
+						action={() => {
+							navigate('/');
+						}}
+					>
+						Login
+					</Button>
+				</div>
 			</div>
 		</Layout>
 	);
