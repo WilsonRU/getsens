@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Dto;
 
-class ResetPasswordDto
+readonly class ResetPasswordDto
 {
     private function __construct(
         public readonly string $password
