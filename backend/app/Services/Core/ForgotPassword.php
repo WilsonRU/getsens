@@ -6,13 +6,18 @@ namespace App\Services\Core;
 
 use App\Dto\ForgotPasswordDto;
 use App\Models\User;
+use App\Repositories\Contracts\UserRepositoryInterface;
 use Illuminate\Validation\ValidationException;
 
 class ForgotPassword
 {
-    public function forgotUserPassword(ForgotPasswordDto $forgotPasswordDto): void
+    private function __construct(
+        private readonly UserRepositoryInterface $userRepository
+    ) {}
+    
+    public function forgot(ForgotPasswordDto $forgotPasswordDto): void
     {
-        $user = User::where('email', $forgotPasswordDto->email)->whereNull('deleted_at')->first();
+        $user = $this->userRepository->byEmail($forgotPasswordDto->email);
 
         if (! $user) {
             throw ValidationException::withMessages([

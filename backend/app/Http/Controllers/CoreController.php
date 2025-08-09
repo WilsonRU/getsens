@@ -70,10 +70,10 @@ class CoreController extends Controller
 
         $dto = ForgotPasswordDto::fromArray($validated);
 
-        $this->forgotPasswordService->forgotUserPassword($dto);
+        $this->forgotPasswordService->forgot($dto);
 
         return response()->json([
-
+            'message' => 'Reset email sent! Check your inbox for the password reset link.',
         ], Response::HTTP_ACCEPTED);
     }
 
