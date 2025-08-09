@@ -1,18 +1,31 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use DateTime;
+use App\Dto\CreateAccountDto;
+use App\Dto\ForgotPasswordDto;
+use App\Dto\LoginDto;
+use App\Dto\ResetPasswordDto;
+use App\Services\Core\CreateAccount;
+use App\Services\Core\ForgotPassword;
+use App\Services\Core\Login;
+use App\Services\Core\ResetPassword;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
 
 class CoreController extends Controller
 {
+    public function __construct(
+        protected readonly Login $loginService,
+        protected readonly CreateAccount $createAccountService,
+        protected readonly ForgotPassword $forgotPasswordService,
+        protected readonly ResetPassword $resetPasswordService
+    ) {}
+
     public function login(Request $request): JsonResponse
     {
         $validated = $request->validate([
@@ -21,18 +34,11 @@ class CoreController extends Controller
         ]);
 
         if (Auth::attempt($validated)) {
-            $user = User::where('email', $validated['email'])->first();
+            $dto = LoginDto::fromArray($validated);
 
-            if (! $user || ! Hash::check($request->password, $user->password)) {
-                throw ValidationException::withMessages([
-                    'email' => ['The provided credentials are incorrect'],
-                ]);
-            }
-            
-            return response()->json([
-                'token' => $user->createToken('user-token', [])->plainTextToken,
-                'user' => $user,
-            ], 200);
+            $dataResponse = $this->loginService->login($dto);
+
+            return response()->json($dataResponse, 200);
         }
 
         return response()->json([
@@ -48,16 +54,27 @@ class CoreController extends Controller
             'password' => 'required|min:6',
         ]);
 
-        User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password']),
-            'email_verified_at' => new DateTime('now')
-        ]);
+        $dto = CreateAccountDto::fromArray($validated);
+        $this->createAccountService->create($dto);
 
         return response()->json([
             'message' => 'User created successfully',
         ], Response::HTTP_CREATED);
+    }
+
+    public function forgotPassword(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'email' => 'required|email:rfc,dns',
+        ]);
+
+        $dto = ForgotPasswordDto::fromArray($validated);
+
+        $this->forgotPasswordService->forgotUserPassword($dto);
+
+        return response()->json([
+
+        ], Response::HTTP_ACCEPTED);
     }
 
     public function resetPassword(Request $request): JsonResponse
@@ -66,12 +83,8 @@ class CoreController extends Controller
             'password' => 'required|min:6',
         ]);
 
-        /** @var App\Models\User $user */
-        $user = Auth::user();
-
-        $user->update([
-            'password' => Hash::make($validated['password']),
-        ]);
+        $dto = ResetPasswordDto::fromArray($validated);
+        $this->resetPasswordService->reset($dto, Auth::user());
 
         return response()->json([
             'message' => 'Password changed successfully',

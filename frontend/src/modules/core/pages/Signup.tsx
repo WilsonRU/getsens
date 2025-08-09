@@ -20,7 +20,7 @@ export default function Signup() {
 		{
 			name: { required: true },
 			email: { required: true, type: 'email' },
-			password: { required: true },
+			password: { required: true, type: 'password' },
 		},
 	);
 
@@ -36,7 +36,7 @@ export default function Signup() {
 				<Input
 					type="text"
 					name="name"
-					placeholder="Username"
+					placeholder="Name"
 					label="Name"
 					value={fields.name}
 					error={errors.name}
