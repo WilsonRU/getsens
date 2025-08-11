@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Dto;
 
-readonly class CreateAccountDto
+readonly class SaveUserDto
 {
     private function __construct(
         public readonly string $name,

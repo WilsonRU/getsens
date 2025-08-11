@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Dto\CreateAccountDto;
 use App\Dto\ForgotPasswordDto;
 use App\Dto\LoginDto;
 use App\Dto\ResetPasswordDto;
-use App\Services\Core\CreateAccount;
+use App\Dto\SaveUserDto;
 use App\Services\Core\ForgotPassword;
 use App\Services\Core\Login;
 use App\Services\Core\ResetPassword;
+use App\Services\Core\SaveUser;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -21,7 +21,7 @@ class CoreController extends Controller
 {
     public function __construct(
         protected readonly Login $loginService,
-        protected readonly CreateAccount $createAccountService,
+        protected readonly SaveUser $saveUserService,
         protected readonly ForgotPassword $forgotPasswordService,
         protected readonly ResetPassword $resetPasswordService
     ) {}
@@ -54,8 +54,8 @@ class CoreController extends Controller
             'password' => 'required|min:6',
         ]);
 
-        $dto = CreateAccountDto::fromArray($validated);
-        $this->createAccountService->create($dto);
+        $dto = SaveUserDto::fromArray($validated);
+        $this->saveUserService->save($dto);
 
         return response()->json([
             'message' => 'User created successfully',

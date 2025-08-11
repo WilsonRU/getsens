@@ -4,23 +4,23 @@ declare(strict_types=1);
 
 namespace App\Services\Core;
 
-use App\Dto\CreateAccountDto;
+use App\Dto\SaveUserDto;
 use App\Repositories\Contracts\UserRepositoryInterface;
 use DateTime;
 use Illuminate\Support\Facades\Hash;
 
-class CreateAccount
+class SaveUser
 {
     private function __construct(
         private readonly UserRepositoryInterface $userRepository
     ) {}
 
-    public function create(CreateAccountDto $createAccountDto): void
+    public function save(SaveUserDto $saveUserDto): void
     {
         $this->userRepository->create([
-            'name' => $createAccountDto->name,
-            'email' => $createAccountDto->email,
-            'password' => Hash::make($createAccountDto->password),
+            'name' => $saveUserDto->name,
+            'email' => $saveUserDto->email,
+            'password' => Hash::make($saveUserDto->password),
             'email_verified_at' => new DateTime('now'),
         ]);
     }
