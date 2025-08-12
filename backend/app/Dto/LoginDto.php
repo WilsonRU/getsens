@@ -11,6 +11,14 @@ readonly class LoginDto
         public readonly string $password
     ) {}
 
+    public function toArray(): array
+    {
+        return [
+            'email' => $this->email,
+            'password' => $this->password
+        ];
+    }
+
     public static function fromArray(array $validated): self
     {
         return new self(

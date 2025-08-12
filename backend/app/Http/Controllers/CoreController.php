@@ -33,9 +33,9 @@ class CoreController extends Controller
             'password' => 'required|min:6',
         ]);
 
-        if (Auth::attempt($validated)) {
-            $dto = LoginDto::fromArray($validated);
+        $dto = LoginDto::fromArray($validated);
 
+        if (Auth::attempt($dto->toArray())) {
             $dataResponse = $this->loginService->login($dto);
 
             return response()->json($dataResponse, 200);
